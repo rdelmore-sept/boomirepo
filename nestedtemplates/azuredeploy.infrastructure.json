@@ -1328,6 +1328,11 @@
               "sku": "8-hpc-gen2",
               "version": "latest"
             },
+             "plan": {
+  "publisher": "AlmaLinux",
+  "product":   "almalinux-hpc",
+  "name":      "8-hpc-gen2"
+} ,
             "osDisk": {
               "name": "[concat(variables('virtualMachineName'),'_OSDisk')]",
               "caching": "ReadWrite",
@@ -1388,4 +1393,5 @@
       }
     }
   }
+
 

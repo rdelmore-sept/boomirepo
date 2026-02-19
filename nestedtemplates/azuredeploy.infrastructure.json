@@ -1309,9 +1309,11 @@
           }
         },
                       "plan": {
-  "publisher": "AlmaLinux",
-  "product":   "almalinux-hpc",
-  "name":      "8-hpc-gen2"
+
+    "publisher": "almalinux",
+    "product":   "almalinux-hpc",
+    "name":      "8-hpc-gen2"
+
 } ,
         "properties": {
 
@@ -1329,10 +1331,12 @@
           },
           "storageProfile": {
             "imageReference": {
-              "publisher": "AlmaLinux",
-              "offer": "almalinux-hpc",
-              "sku": "8-hpc-gen2",
-              "version": "latest"
+
+        "publisher": "almalinux",
+        "offer": "almalinux-hpc",
+        "sku": "8-hpc-gen2",
+        "version": "8.10.2024092301"
+
             },
              
             "osDisk": {
@@ -1395,6 +1399,7 @@
       }
     }
   }
+
 
 
 

@@ -46,7 +46,7 @@
       },
       "aksClusterKubernetesVersion": {
         "type": "string",
-        "defaultValue": "1.21.2",
+        "defaultValue": "1.34.0",
         "metadata": {
           "description": "Specifies the version of Kubernetes specified when creating the managed cluster."
         }
@@ -1332,7 +1332,7 @@
               "name": "[concat(variables('virtualMachineName'),'_OSDisk')]",
               "caching": "ReadWrite",
               "createOption": "FromImage",
-              "diskSizeGB": 30,
+              "diskSizeGB": 64,
               "managedDisk": {
                 "storageAccountType": "StandardSSD_LRS"
               }
@@ -1388,3 +1388,4 @@
       }
     }
   }
+

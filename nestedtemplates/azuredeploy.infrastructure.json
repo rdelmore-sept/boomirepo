@@ -1308,12 +1308,13 @@
             "[variables('virtualMachineUserDefinedManagedIdentityId')]": {}
           }
         },
-        "properties": {
-            "plan": {
+                      "plan": {
   "publisher": "AlmaLinux",
   "product":   "almalinux-hpc",
   "name":      "8-hpc-gen2"
 } ,
+        "properties": {
+
           "hardwareProfile": {
             "vmSize": "[parameters('virtualMachineSize')]"
           },
@@ -1394,6 +1395,7 @@
       }
     }
   }
+
 
 
 

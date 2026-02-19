@@ -195,7 +195,7 @@
     },
     "virtualMachineAdminUsername": {
       "type": "string",
-      "defaultValue": "boomi",
+      "defaultValue": "boomiadmin",
       "metadata": {
         "description": "Specifies the name of the administrator account of the virtual machine."
       }
@@ -245,6 +245,7 @@
     },
     "BoomiMoleculeName": {
       "type": "string",
+      "defaultValue": "AKS_MOL_TEST_01",
       "metadata": {
         "description": "The Boomi Molecule cluster name"
       }
@@ -477,4 +478,5 @@
     }
   }
 }
+
 

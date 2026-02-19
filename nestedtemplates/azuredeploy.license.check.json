@@ -282,7 +282,7 @@
   "resources": [
     {
       "name": "BoomiAKSQuickStart",
-      "condition": "[equals(parameters('deploymentCondition'), 'SUCCESS')]",
+      "condition": "[or(equals(parameters('deploymentCondition'), 'SUCCESS'), equals(parameters('deploymentCondition'), 'OK'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "properties": {
@@ -416,3 +416,4 @@
     }
   }
 }
+

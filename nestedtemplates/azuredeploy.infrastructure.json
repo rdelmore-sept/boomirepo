@@ -1308,13 +1308,7 @@
             "[variables('virtualMachineUserDefinedManagedIdentityId')]": {}
           }
         },
-                      "plan": {
-
-    "publisher": "almalinux",
-    "product":   "almalinux-hpc",
-    "name":      "8-hpc-gen2"
-
-} ,
+                     
         "properties": {
 
           "hardwareProfile": {
@@ -1332,10 +1326,10 @@
           "storageProfile": {
             "imageReference": {
 
-        "publisher": "almalinux",
-        "offer": "almalinux-hpc",
-        "sku": "8-hpc-gen2",
-        "version": "8.10.2024092301"
+    "publisher": "RedHat",
+    "offer": "RHEL",
+    "sku": "8-lvm-gen2",
+    "version": "latest"
 
             },
              
@@ -1399,6 +1393,7 @@
       }
     }
   }
+
 
 
 

@@ -225,7 +225,7 @@
         }
       },
       "netAppServiceLevel": {
-        "defaultValue": "Premium",
+        "defaultValue": "Standard",
         "type": "string",
         "allowedValues": [
           "Premium",
@@ -435,7 +435,7 @@
       "aksClusterName": "[concat(variables('deploymentName'), '-askCluster')]",
       "aksClusterId": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
         
-      "nrg": "[take(concat('MC_',variables('deploymentName')), 80)]",
+      "nrg": "rg-boomi-vmss-bi-prod-cac",
   
       "aksClusterDnsPrefix": "[concat(variables('deploymentName'), '-ask')]",
   
@@ -1393,6 +1393,7 @@
       }
     }
   }
+
 
 
 

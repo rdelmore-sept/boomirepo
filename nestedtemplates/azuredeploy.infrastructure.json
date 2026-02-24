@@ -1376,8 +1376,7 @@
     "settings": {
       "fileUris": [
         "[variables('nestedtscriptUri')]"
-      ],
-      "timestamp": "[utcNow()]"
+      ]
     },
     "protectedSettings": {
       "commandToExecute": "[concat(
@@ -1432,6 +1431,7 @@
       }
     }
   }
+
 
 
 

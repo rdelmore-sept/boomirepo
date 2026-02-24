@@ -97,7 +97,9 @@ require_cmd curl
 # -----------------------------
 # 4) Azure auth via Managed Identity (no prompts)
 # -----------------------------
-if [[ -n "$MI_CLIENT_ID" ]]; then
+# ---------- Azure auth via Managed Identity ----------
+# Optional: pass --mi_client_id "<CLIENT_ID>" to pick a specific UAMI if there are multiple
+if [[ -n "${MI_CLIENT_ID:-}" ]]; then
   log "az login --identity --username ${MI_CLIENT_ID} (allow-no-subscriptions)"
   az login --identity --username "$MI_CLIENT_ID" --allow-no-subscriptions --output none \
     || fail "az login --identity with --username failed"
@@ -108,7 +110,7 @@ else
 fi
 
 # Explicitly set subscription if provided (recommended)
-if [[ -n "$SUBSCRIPTION_ID" ]]; then
+if [[ -n "${SUBSCRIPTION_ID:-}" ]]; then
   log "az account set --subscription ${SUBSCRIPTION_ID}"
   az account set --subscription "$SUBSCRIPTION_ID" \
     || fail "az account set --subscription ${SUBSCRIPTION_ID} failed"

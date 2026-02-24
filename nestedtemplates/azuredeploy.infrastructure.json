@@ -1384,8 +1384,7 @@
         '/bin/bash -c ''',
           'set -euo pipefail; ',
           'echo \"[CustomScript] PWD: $(pwd)\"; ',
-          'ls -l; ',
-          // normalize line endings and ensure executability
+          'ls -l; ',          
           'sed -i \"s/\\r$//\" k8s_deployment.sh || true; ',
           'chmod +x k8s_deployment.sh || true; ',
           'bash ./k8s_deployment.sh',
@@ -1433,6 +1432,7 @@
       }
     }
   }
+
 
 
 

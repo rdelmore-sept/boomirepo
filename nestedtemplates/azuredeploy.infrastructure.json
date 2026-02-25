@@ -1426,21 +1426,7 @@
 		
 
 				
-{
-  "type": "Microsoft.Authorization/roleAssignments",
-  "apiVersion": "2022-04-01",
-  "name": "[guid(variables('aksResourceId'),variables('virtualMachineUserDefinedManagedIdentityId'), 'aks-cluster-user')]",
-  "scope": "[variables('aksResourceId')]",
-  "properties": {
-    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','4abbcc35-e782-43d8-92c5-4c2e0565f81d')]", 
-    "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
-    "principalType": "ServicePrincipal"
-  },
-  "dependsOn": [
-    "[variables('aksResourceId')]",
-    "[variables('virtualMachineUserDefinedManagedIdentityId')]"
-  ]
-},
+
 
 
 
@@ -1489,6 +1475,7 @@
       }
     }
   }
+
 
 
 

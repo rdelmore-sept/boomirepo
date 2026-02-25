@@ -1429,7 +1429,7 @@
     "typeHandlerVersion": "2.1",
     "autoUpgradeMinorVersion": true,
     "settings": {
-      "fileUris": [         "[parameters('nestedtscriptUri')]", "[parameters('wrapperUri')]", "[parameters('k8sUri')]" ]
+      "fileUris": [         "[variables('nestedtscriptUri')]", "[parameters('wrapperUri')]", "[parameters('k8sUri')]" ]
 	
     },
 "protectedSettings": {
@@ -1457,6 +1457,7 @@
       }
     }
   }
+
 
 
 

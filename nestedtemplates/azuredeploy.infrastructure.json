@@ -333,7 +333,7 @@
   
       "readerRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('readerRoleDefinitionName'))]",
       "contributorRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('contributorRoleDefinitionName'))]",
-      "aksResourceId": "[resourceId('Microsoft.ContainerService/managedClusters', parameters('aksName'))]"
+      "aksResourceId": "[resourceId('Microsoft.ContainerService/managedClusters', parameters('aksName'))]",
 
       
 
@@ -556,7 +556,7 @@
   "name": "[guid(variables('aksResourceId'),variables('virtualMachineUserDefinedManagedIdentityId'), 'aks-cluster-user')]",
   "scope": "[variables('aksResourceId')]",
   "properties": {
-    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','4abbcc35-e782-43d8-92c5-4c2e0565f81d')]", // AKS Cluster User
+    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','4abbcc35-e782-43d8-92c5-4c2e0565f81d')]", 
     "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
     "principalType": "ServicePrincipal"
   },
@@ -1445,6 +1445,7 @@
       }
     }
   }
+
 
 
 

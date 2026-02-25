@@ -333,7 +333,7 @@
   
       "readerRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('readerRoleDefinitionName'))]",
       "contributorRoleId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('contributorRoleDefinitionName'))]",
-      "aksResourceId": "[resourceId('Microsoft.ContainerService/managedClusters', parameters('aksName'))]",
+
 
       
 
@@ -450,7 +450,9 @@
       "nrg": "rg-boomi-vmss-bi-prod-cac",
   
       "aksClusterDnsPrefix": "[concat(variables('deploymentName'), '-ask')]",
-  
+      
+        "aksResourceId": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
+        
       "virtualMachineName": "[concat(variables('deploymentName'), '-virtualMachine')]",
       "virtualMachineId": "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
   
@@ -1445,6 +1447,7 @@
       }
     }
   }
+
 
 
 

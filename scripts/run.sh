@@ -29,11 +29,11 @@ PASSTHRU=()
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --resource_group)   RESOURCE_GROUP="${2:-}"; shift 2 ;;
-    --aks_name)         AKS_NAME="${2:-}";       shift 2 ;;
-    --subscription_id)  SUBSCRIPTION_ID="${2:-}"; shift 2 ;;
-    --mi_client_id)     MI_CLIENT_ID="${2:-}";    shift 2 ;;
-    *)                  PASSTHRU+=("$1");         shift   ;;
+    --resource_group) RESOURCE_GROUP="${2:-}"; shift 2 ;;
+    --aks_name)       AKS_NAME="${2:-}";       shift 2 ;;
+    --subscription_id) SUBSCRIPTION_ID="${2:-}"; shift 2 ;;
+    --mi_client_id)   MI_CLIENT_ID="${2:-}";    shift 2 ;;
+    *) PASSTHRU+=("$1"); shift ;;  # forward all other args
   esac
 done
 

@@ -535,49 +535,11 @@
           "scope": "[resourceGroup().id]"
         }
       },
-      {
-        "type": "Microsoft.Authorization/roleAssignments",
-        "apiVersion": "2022-01-01-preview",
-        "name": "[variables('virtualMachineContributorRoleAssignmentName')]",
-        "dependsOn": [
-          "[variables('virtualMachineUserDefinedManagedIdentityId')]"
-        ],
-        "properties": {
-          "roleDefinitionId": "[variables('contributorRoleId')]",
-          "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
-          "principalType": "ServicePrincipal",
-          "scope": "[resourceGroup().id]"
-        }
-      },
-{
-  "type": "Microsoft.Authorization/roleAssignments",
-  "apiVersion": "2022-04-01",
-  "name": "[variables('virtualMachineSubReaderRoleAssignmentName')]",
-  "scope": "[subscription().id]",
-  "properties": {
-    "roleDefinitionId": "[variables('readerRoleId')]",
-    "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
-    "principalType": "ServicePrincipal"
-  },
-  "dependsOn": [
-    "[variables('virtualMachineUserDefinedManagedIdentityId')]"
-  ]
-},
-{
-  "type": "Microsoft.Authorization/roleAssignments",
-  "apiVersion": "2022-04-01",
-  "name": "[guid(variables('aksResourceId'),variables('virtualMachineUserDefinedManagedIdentityId'), 'aks-cluster-user')]",
-  "scope": "[variables('aksResourceId')]",
-  "properties": {
-    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','4abbcc35-e782-43d8-92c5-4c2e0565f81d')]", 
-    "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
-    "principalType": "ServicePrincipal"
-  },
-  "dependsOn": [
-    "[variables('aksResourceId')]",
-    "[variables('virtualMachineUserDefinedManagedIdentityId')]"
-  ]
-},
+      
+
+
+
+
 
 
 
@@ -1413,6 +1375,76 @@
           }
         }
       },
+
+
+
+	{
+        "type": "Microsoft.Authorization/roleAssignments",
+        "apiVersion": "2022-01-01-preview",
+        "name": "[variables('virtualMachineContributorRoleAssignmentName')]",
+        "dependsOn": [
+          "[variables('virtualMachineUserDefinedManagedIdentityId')]"
+        ],
+        "properties": {
+          "roleDefinitionId": "[variables('contributorRoleId')]",
+          "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
+          "principalType": "ServicePrincipal",
+          "scope": "[resourceGroup().id]"
+        }
+      },
+
+
+		
+	{
+  "type": "Microsoft.Resources/deployments",
+  "apiVersion": "2021-04-01",
+  "name": "subScopeRoleAssignment",
+  "location": "[parameters('location')]",
+  "subscriptionId": "[subscription().subscriptionId]",
+  "properties": {
+    "mode": "Incremental",
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "resources": [
+        {
+          "type": "Microsoft.Authorization/roleAssignments",
+          "apiVersion": "2022-04-01",
+          "name": "[variables('virtualMachineSubReaderRoleAssignmentName')]",
+          "properties": {
+            "roleDefinitionId": "[variables('readerRoleId')]",
+            "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
+            "principalType": "ServicePrincipal"
+          }
+        }
+      ]
+    }
+  }
+},
+
+
+		
+
+				
+{
+  "type": "Microsoft.Authorization/roleAssignments",
+  "apiVersion": "2022-04-01",
+  "name": "[guid(variables('aksResourceId'),variables('virtualMachineUserDefinedManagedIdentityId'), 'aks-cluster-user')]",
+  "scope": "[variables('aksResourceId')]",
+  "properties": {
+    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','4abbcc35-e782-43d8-92c5-4c2e0565f81d')]", 
+    "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityName')).principalId]",
+    "principalType": "ServicePrincipal"
+  },
+  "dependsOn": [
+    "[variables('aksResourceId')]",
+    "[variables('virtualMachineUserDefinedManagedIdentityId')]"
+  ]
+},
+
+
+
+		
     {
   "name": "[concat(variables('virtualMachineName'), '/molecule-deployments')]",
   "type": "Microsoft.Compute/virtualMachines/extensions",
@@ -1457,6 +1489,7 @@
       }
     }
   }
+
 
 
 

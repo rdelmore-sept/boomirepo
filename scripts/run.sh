@@ -74,7 +74,7 @@ require_cmd az
 
 if ! command -v kubectl >/dev/null 2>&1; then
   log "Installing kubectl via az…"
-  az aks install-cli
+  az aks install-cli --install-location /usr/bin/kubectl
 fi
 require_cmd kubectl
 

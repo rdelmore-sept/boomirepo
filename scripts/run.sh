@@ -90,27 +90,23 @@ require_cmd curl
 # -----------------------------
 if [[ -n "$MI_CLIENT_ID" ]]; then
   log "az login --identity --username ${MI_CLIENT_ID} (allow-no-subscriptions)"
-  az login --identity --username "$MI_CLIENT_ID" --allow-no-subscriptions --output none \
-    || fail "az login --identity (with --username) failed"
+  az login --identity --username "$MI_CLIENT_ID" --allow-no-subscriptions --output none     || fail "az login --identity (with --username) failed"
 else
   log "az login --identity (allow-no-subscriptions)"
-  az login --identity --allow-no-subscriptions --output none \
-    || fail "az login --identity failed"
+  az login --identity --allow-no-subscriptions --output none     || fail "az login --identity failed"
 fi
 
 # Explicitly set the subscription if provided
 if [[ -n "$SUBSCRIPTION_ID" ]]; then
   log "az account set --subscription ${SUBSCRIPTION_ID}"
-  az account set --subscription "$SUBSCRIPTION_ID" \
-    || fail "az account set --subscription ${SUBSCRIPTION_ID} failed"
+  az account set --subscription "$SUBSCRIPTION_ID"     || fail "az account set --subscription ${SUBSCRIPTION_ID} failed"
 fi
 
 # -----------------------------
 # Get AKS credentials
 # -----------------------------
 log "az aks get-credentials -g ${RESOURCE_GROUP} -n ${AKS_NAME} --overwrite-existing"
-az aks get-credentials -g "$RESOURCE_GROUP" -n "$AKS_NAME" --overwrite-existing --output none \
-  || fail "az aks get-credentials failed (check MI RBAC on subscription and AKS resource)"
+az aks get-credentials -g "$RESOURCE_GROUP" -n "$AKS_NAME" --overwrite-existing --output none   || fail "az aks get-credentials failed (check MI RBAC on subscription and AKS resource)"
 
 # Non-fatal sanity checks
 kubectl cluster-info || true
@@ -121,7 +117,4 @@ helm version || true
 # Hand off to your original script
 # -----------------------------
 log "Launching k8s_deployment.sh with original arguments…"
-bash ./k8s_deployment.sh \
-  --resource_group "$RESOURCE_GROUP" \
-  --aks_name "$AKS_NAME" \
-  "${PASSTHRU[@]}"
+bash ./k8s_deployment.sh   --resource_group "$RESOURCE_GROUP"   --aks_name "$AKS_NAME"   "${PASSTHRU[@]}"

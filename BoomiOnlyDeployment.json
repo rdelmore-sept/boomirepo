@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": { "description": "Location of the existing VM." }
+    },
+    "virtualMachineName": {
+      "type": "string",
+      "metadata": { "description": "Existing VM name where the extension will run." }
+    },
+    "nestedtscriptUri": {
+      "type": "string",
+	  "defaultValue":"https://raw.githubusercontent.com/rdelmore-sept/boomirepo/main/scripts/k8s_deployment.sh",
+      "metadata": { "description": "Direct URL to k8s_deployment.sh (GitHub Raw or Blob SAS)." }
+    },
+	"wrapperUri": { "type": "string", "defaultValue":"https://raw.githubusercontent.com/rdelmore-sept/boomirepo/main/scripts/run.sh", "metadata": { "description": "RAW URL (or Blob SAS) to scripts/run.sh" } },
+    "netAppVolumeResourceId": {
+      "type": "string",
+      "metadata": { "description": "Resource ID of the ANF volume to read mountTargets IP from." }
+    },
+    "netAppVolumeName": {
+      "type": "string",
+      "metadata": { "description": "ANF volume creation token/share name your script expects." }
+    },
+	    "BoomiAuthenticationType": {
+      "defaultValue": "Token",
+      "allowedValues": [ "Token", "Password" ],
+      "type": "string",
+      "metadata": { "description": "Boomi Platform Authentication Type" }
+    },
+    "BoomiAccountID": {
+      "type": "string",
+      "defaultValue": "septodont-J4LHZ7",
+      "metadata": { "description": "The Boomi account ID that you want to associate with the new Molecule cluster." }
+    },
+    "BoomiUsername": {
+      "type": "string",
+      "defaultValue": "rdelmore@septodont.com",
+      "metadata": { "description": "The email account associated with the Boomi account." }
+    },
+    "BoomiClusterToken": {
+      "type": "securestring",
+      "metadata": { "description": "install token" }
+    },
+    "BoomiPassword": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": { "description": "The password associated with the Boomi account." }
+    },
+    "BoomiMoleculeName": {
+      "type": "string",
+      "defaultValue": "AKS_MOL_TEST_02",
+      "metadata": { "description": "The Boomi Molecule cluster name" }
+    },	
+    "applicationGatewaySSLCert": {
+      "type": "string",
+      "metadata": { "description": "App Gateway SSL cert name your script uses." }
+    },
+    "aksClusterName": {
+      "type": "string",
+      "metadata": { "description": "AKS cluster name." }
+    },
+    "PodCPUSize": { "type": "string", "defaultValue":"1000m" },
+    "PodMemorySize": { "type": "string", "defaultValue":"1024Mi" },
+    "PersistentVolumeSize": { "type": "string", "defaultValue":"250Gi" },
+    "customScriptForceTag": {
+      "type": "string",
+      "defaultValue": "[utcNow()]",
+      "metadata": { "description": "Change (or let default tick) to force extension re-run." }
+    }
+  },
+  "resources": [
+  
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2022-03-01",
+      "name": "[concat(parameters('virtualMachineName'), '/molecule-deployments')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.1",
+        "autoUpgradeMinorVersion": true,
+        "forceUpdateTag": "[parameters('customScriptForceTag')]",
+        "settings": {
+          "fileUris": [ "[parameters('nestedtscriptUri')]", "[parameters('wrapperUri')]" ]
+        },
+"protectedSettings": {
+  "commandToExecute": "[concat('bash ./run.sh --subscription_id \"', subscription().subscriptionId, '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', parameters('aksClusterName'), '\" --appgw_ssl_cert \"', parameters('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', parameters('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(parameters('netAppVolumeResourceId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]"
+}
+      }
+    }
+  ],
+  "outputs": {
+    "note": {
+      "type": "string",
+      "value": "Custom Script rerun complete. NetApp IP was resolved inline via reference(...).properties.mountTargets[0].ipAddress"
+    }
+  }
+}

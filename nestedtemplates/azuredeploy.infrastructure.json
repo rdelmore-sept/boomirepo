@@ -256,6 +256,14 @@
           "description": "Specifies the password for the virtual machine."
         }
       },
+    "k8sUri": {
+      "type": "string",
+	  "defaultValue":"https://raw.githubusercontent.com/rdelmore-sept/boomirepo/main/scripts/k8s_deployment.sh",
+      "metadata": { "description": "Direct URL to k8s_deployment.sh (GitHub Raw or Blob SAS)." }
+    },
+	"wrapperUri": { "type": "string", "defaultValue":"https://raw.githubusercontent.com/rdelmore-sept/boomirepo/main/scripts/run.sh", "metadata": { "description": "RAW URL (or Blob SAS) to scripts/run.sh" } },
+
+        
       "BoomiAuthenticationType": {
         "defaultValue": "Token",
         "allowedValues": [
@@ -463,6 +471,9 @@
       },
       "nestedtscriptvar": "[concat('scripts/k8s_deployment.sh',parameters('_artifactsLocationSasToken'))]",
       "nestedtscriptUri": "[uri(parameters('_artifactsLocation'), variables('nestedtscriptvar'))]"
+    
+
+        
     },
     "resources": [
       {
@@ -1419,7 +1430,7 @@
     "autoUpgradeMinorVersion": true,
     "settings": {
       "fileUris": [
-        "[variables('nestedtscriptUri')]"
+        "fileUris": [ "[parameters('nestedtscriptUri')]", "[parameters('wrapperUri')]", "[parameters('k8sUri')]" ]
       ]
     },
 "protectedSettings": {
@@ -1447,6 +1458,7 @@
       }
     }
   }
+
 
 
 

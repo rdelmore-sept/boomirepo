@@ -1420,40 +1420,6 @@
       ]
     }
   }
-},
-
-
-		
-
-				
-
-
-
-
-		
-    {
-  "name": "[concat(variables('virtualMachineName'), '/molecule-deployments')]",
-  "type": "Microsoft.Compute/virtualMachines/extensions",
-  "apiVersion": "2022-03-01",
-  "location": "[parameters('location')]",
-  "dependsOn": [
-    "[variables('netAppVolumeId')]",
-    "[variables('virtualMachineId')]",
-    "[variables('virtualMachineContributorRoleAssignmentId')]"
-  ],
-  "properties": {
-    "publisher": "Microsoft.Azure.Extensions",
-    "type": "CustomScript",
-    "typeHandlerVersion": "2.1",
-    "autoUpgradeMinorVersion": true,
-    "settings": {
-      "fileUris": [         "[variables('nestedtscriptUri')]", "[parameters('wrapperUri')]", "[parameters('k8sUri')]" ]
-	
-    },
-"protectedSettings": {
-  "commandToExecute": "[concat('bash ./run.sh --subscription_id \"', subscription().subscriptionId, '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', variables('aksClusterName'), '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(resourceId('Microsoft.NetApp/netAppAccounts/capacityPools/volumes/',variables('netAppAccountName'), variables('netAppPoolName'), variables('netAppVolumeName'))).mountTargets[0].ipAddress, '\"')]"
-}
-  }
 }
     ],
     "outputs": {
@@ -1475,6 +1441,7 @@
       }
     }
   }
+
 
 
 

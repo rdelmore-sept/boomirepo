@@ -8,6 +8,7 @@
 # - Hands off to k8s_deployment.sh with all original flags
 
 set -Eeuo pipefail
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:$PATH"
 
 # Optional: set RUN_VERBOSE=1 to trace commands
 if [[ "${RUN_VERBOSE:-0}" == "1" ]]; then

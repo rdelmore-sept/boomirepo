@@ -1423,6 +1423,22 @@
 },
 
 		{
+  "type": "Microsoft.Authorization/roleAssignments",
+  "apiVersion": "2022-04-01",
+  "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName')), reference(resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName')), '2023-09-01', 'Full').identity.principalId, 'aks-cluster-user-role')]",
+  "scope": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
+  "properties": {
+    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4abbcc35-e782-43d8-92c5-2d3f1bd2253f')]",
+    "principalId": "[reference(resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName')), '2023-09-01').identity.principalId]",
+    "principalType": "ServicePrincipal"
+  },
+  "dependsOn": [
+    "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
+    "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]"
+  ]
+},
+
+		{
   "name": "[concat(variables('virtualMachineName'), '/molecule-deployments')]",
   "type": "Microsoft.Compute/virtualMachines/extensions",
   "apiVersion": "2022-03-01",
@@ -1466,6 +1482,7 @@
       }
     }
   }
+
 
 
 

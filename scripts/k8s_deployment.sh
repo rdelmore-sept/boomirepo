@@ -161,16 +161,18 @@ spec:
     path: /$fileshare
 EOF
 
-cat >/tmp/persistentvolumeclam.yaml <<EOF
+cat >/tmp/persistentvolumeclaim.yaml <<EOF
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: molecule-storage
+  namespace: aks-boomi-molecule
 spec:
   accessModes:
     - ReadWriteMany
   storageClassName: ""
+  volumeName: molecule-storage
   resources:
     requests:
       storage: $pv_size
@@ -455,7 +457,7 @@ kubectl apply -f /tmp/secrets.yaml --namespace=aks-boomi-molecule --kubeconfig=/
 
 kubectl apply -f /tmp/persistentvolume.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
-kubectl apply -f /tmp/persistentvolumeclam.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
+kubectl apply -f /tmp/persistentvolumeclaim.yaml --namespace=aks-boomi-molecule --kubeconfig=/root/.kube/config
 
 if [ $boomi_auth == "Token" ]
 then

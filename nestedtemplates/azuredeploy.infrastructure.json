@@ -1408,7 +1408,7 @@
 {
   "type": "Microsoft.Authorization/roleAssignments",
   "apiVersion": "2022-04-01",
-    "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName')), variables('virtualMachineUserDefinedManagedIdentityPrincipalId'), 'aks-cluster-user-role')]",
+    "name": "[guid(concat(variables('deploymentName'), '-aks-cluster-user-role'))]",
   "scope": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
   "properties": {
     "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/4abbcc35-e782-43d8-92c5-2d3f1bd2253f', parameters('subscriptionId'))]",
@@ -1508,6 +1508,7 @@
       }
     }
   }
+
 
 
 

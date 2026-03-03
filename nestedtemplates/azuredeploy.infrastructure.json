@@ -471,8 +471,8 @@
       "virtualMachineName": "[concat(variables('deploymentName'), '-virtualMachine')]",
       "virtualMachineId": "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
 
-  "rerunCommand": "[concat('bash run.sh --subscription_id \"', parameters('subscriptionId'), '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', variables('aksClusterName'), '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(variables('netAppVolumeId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]",
-"rerunCommand1": "[concat('bash run.sh --subscription_id \"', parameters('subscriptionId'), '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', variables('aksClusterName'), '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(variables('netAppVolumeId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]",
+  
+"rerunCommand1": "[concat('bash run.sh --subscription_id \"', parameters('subscriptionId'), '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', variables('aksClusterName'), '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"')]",
   
       "aadProfileConfiguration": {
         "managed": "[parameters('aadProfileManaged')]",
@@ -1471,7 +1471,7 @@
 	
     },
 "protectedSettings": {
-  "commandToExecute": "[variables('rerunCommand')]"
+  "commandToExecute": "[concat('bash run.sh --subscription_id \"', parameters('subscriptionId'), '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', variables('aksClusterName'), '\" --appgw_ssl_cert \"', variables('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', variables('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(variables('netAppVolumeId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]",
 }
   }
 }
@@ -1507,6 +1507,7 @@
       }
     }
   }
+
 
 
 

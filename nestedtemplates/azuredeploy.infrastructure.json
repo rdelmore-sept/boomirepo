@@ -463,6 +463,10 @@
         
       "virtualMachineName": "[concat(variables('deploymentName'), '-virtualMachine')]",
       "virtualMachineId": "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
+
+		"variables": {
+  "rerunCommand": "[concat('bash run.sh --subscription_id \"', subscription().subscriptionId, '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', parameters('aksClusterName'), '\" --appgw_ssl_cert \"', parameters('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', parameters('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(parameters('netAppVolumeResourceId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]"
+},
   
       "aadProfileConfiguration": {
         "managed": "[parameters('aadProfileManaged')]",
@@ -1464,6 +1468,18 @@
 }
     ],
     "outputs": {
+
+"subscriptionId": {
+    "type": "string",
+    "value": "[subscription().subscriptionId]"
+  },
+  "rerunCommand": {
+    "type": "string",
+    "value": "[variables('rerunCommand')]"
+  },
+  
+
+		
       "virtualMachinePublicIpAddress": {
         "type": "string",
         "value": "[reference(variables('virtualMachinePublicIpAddressName')).ipAddress]"
@@ -1482,6 +1498,7 @@
       }
     }
   }
+
 
 
 

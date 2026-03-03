@@ -2,6 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+		"subscriptionId": {
+  "type": "string",
+  "metadata": {
+    "description": "Subscription ID where AKS exists"
+  }
+},
       "virtualNetworkAddressPrefixes": {
         "defaultValue": "10.0.0.0/19",
         "type": "string",
@@ -464,9 +470,8 @@
       "virtualMachineName": "[concat(variables('deploymentName'), '-virtualMachine')]",
       "virtualMachineId": "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
 
-		"variables": {
-  "rerunCommand": "[concat('bash run.sh --subscription_id \"', subscription().subscriptionId, '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', parameters('aksClusterName'), '\" --appgw_ssl_cert \"', parameters('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', parameters('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(parameters('netAppVolumeResourceId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]"
-},
+  "rerunCommand": "[concat('bash run.sh --subscription_id \"', parameters('subscriptionId'), '\" --resource_group \"', resourceGroup().name, '\" --aks_name \"', parameters('aksClusterName'), '\" --appgw_ssl_cert \"', parameters('applicationGatewaySSLCert'), '\" --boomi_auth \"', parameters('BoomiAuthenticationType'), '\" --boomi_token \"', parameters('BoomiClusterToken'), '\" --boomi_username \"', parameters('BoomiUsername'), '\" --boomi_password \"', parameters('BoomiPassword'), '\" --boomi_account \"', parameters('BoomiAccountID'), '\" --boomi_molecule_name \"', parameters('BoomiMoleculeName'), '\" --fileshare \"', parameters('netAppVolumeName'), '\" --pod_cpu \"', parameters('PodCPUSize'), '\" --pod_memory \"', parameters('PodMemorySize'), '\" --pv_size \"', parameters('PersistentVolumeSize'), '\" --netAppIP \"', reference(parameters('netAppVolumeResourceId'), '2022-01-01', 'Full').properties.mountTargets[0].ipAddress, '\"')]",
+
   
       "aadProfileConfiguration": {
         "managed": "[parameters('aadProfileManaged')]",
@@ -1397,6 +1402,22 @@
         }
       },
 
+		
+{
+  "type": "Microsoft.Authorization/roleAssignments",
+  "apiVersion": "2022-04-01",
+  "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName')), reference(resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName')), '2023-09-01', 'Full').identity.principalId, 'aks-cluster-user-role')]",
+  "scope": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
+  "properties": {
+    "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/4abbcc35-e782-43d8-92c5-2d3f1bd2253f', parameters('subscriptionId'))]",
+    "principalId": "[reference(resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName')), '2023-09-01', 'Full').identity.principalId]",
+    "principalType": "ServicePrincipal"
+  },
+  "dependsOn": [
+    "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
+    "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]"
+  ]
+},
 
 		
 	{
@@ -1426,21 +1447,7 @@
   }
 },
 
-		{
-  "type": "Microsoft.Authorization/roleAssignments",
-  "apiVersion": "2022-04-01",
-  "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName')), reference(resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName')), '2023-09-01', 'Full').identity.principalId, 'aks-cluster-user-role')]",
-  "scope": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
-  "properties": {
-    "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4abbcc35-e782-43d8-92c5-2d3f1bd2253f')]",
-    "principalId": "[reference(resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName')), '2023-09-01').identity.principalId]",
-    "principalType": "ServicePrincipal"
-  },
-  "dependsOn": [
-    "[resourceId('Microsoft.Compute/virtualMachines', variables('virtualMachineName'))]",
-    "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]"
-  ]
-},
+
 
 		{
   "name": "[concat(variables('virtualMachineName'), '/molecule-deployments')]",
@@ -1498,6 +1505,7 @@
       }
     }
   }
+
 
 
 

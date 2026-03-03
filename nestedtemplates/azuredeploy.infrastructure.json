@@ -4,6 +4,7 @@
     "parameters": {
 		"subscriptionId": {
   "type": "string",
+		"defaultValue":"96133561-2d53-4b48-b2c0-0ce106258de5",
   "metadata": {
     "description": "Subscription ID where AKS exists"
   }
@@ -1506,6 +1507,7 @@
       }
     }
   }
+
 
 
 

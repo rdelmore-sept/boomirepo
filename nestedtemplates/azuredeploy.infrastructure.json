@@ -373,7 +373,8 @@
   
       "virtualMachineUserDefinedManagedIdentityName": "[concat(variables('deploymentName'), '-virtualMachineManagedIdentity')]",
       "virtualMachineUserDefinedManagedIdentityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('virtualMachineUserDefinedManagedIdentityName'))]",
-  
+      "virtualMachineUserDefinedManagedIdentityPrincipalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityId'), '2022-01-31-PREVIEW').principalId]",
+		
       "aksContributorRoleAssignmentName": "[guid(concat(variables('deploymentName'), '-aksContributorRoleAssignment'))]",
       "aksContributorRoleAssignmentId": "[resourceId('Microsoft.Authorization/roleAssignments', variables('aksContributorRoleAssignmentName'))]",
   
@@ -1407,11 +1408,11 @@
 {
   "type": "Microsoft.Authorization/roleAssignments",
   "apiVersion": "2022-04-01",
-  "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName')), reference(variables('virtualMachineUserDefinedManagedIdentityId'), '2022-01-31-PREVIEW').principalId, 'aks-cluster-user-role')]",
+    "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName')), variables('virtualMachineUserDefinedManagedIdentityPrincipalId'), 'aks-cluster-user-role')]",
   "scope": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterName'))]",
   "properties": {
     "roleDefinitionId": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/4abbcc35-e782-43d8-92c5-2d3f1bd2253f', parameters('subscriptionId'))]",
-    "principalId": "[reference(variables('virtualMachineUserDefinedManagedIdentityId'), '2022-01-31-PREVIEW').principalId]",	  
+    "principalId": "[variables('virtualMachineUserDefinedManagedIdentityPrincipalId')]",  
     "principalType": "ServicePrincipal"
   },
   "dependsOn": [
@@ -1507,6 +1508,7 @@
       }
     }
   }
+
 
 
 
